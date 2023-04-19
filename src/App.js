@@ -5,7 +5,10 @@ import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { Stats, OrbitControls, Environment, useGLTF } from '@react-three/drei'
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import BoxMui from '@mui/material/Box';
+import { Stats, OrbitControls, Environment, useGLTF, Html, useProgress, Loader } from '@react-three/drei'
 
 function App() {
   function Box(props) {
@@ -55,11 +58,12 @@ function App() {
     const [hovered, hover] = useState(false)
     const ref = useRef()
     //https://cdn.jsdelivr.net/gh/*USER*/*REPO*@VERSION*/*FILEPATH*
-    //20mb file limit
+    //20mb file limit using jsdelivr
     //EX: https://cdn.jsdelivr.net/gh//Nando123mad/MyRepo@master/publicfolder/asset/myasset.gltf
     //https://cdn.filestackcontent.com/A6HyqbKrrRoChUMHrEELHz/http://dl.dropboxusercontent.com/s/ueuee7ur3bqb2xs/sig_p320_desktop_v1.gltf?dl=0
-    //https://cdn.jsdelivr.net/gh/Nando123mad/gltfHolder/SigGun/sig.gltf
-    const { scene } = useGLTF('https://cdn.filestackcontent.com/A6HyqbKrrRoChUMHrEELHz/http://dl.dropboxusercontent.com/s/ueuee7ur3bqb2xs/sig_p320_desktop_v1.gltf?dl=0')
+    //https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/Duck/glTF/Duck.gltf
+
+    const { scene } = useGLTF('http://dl.dropboxusercontent.com/s/ueuee7ur3bqb2xs/sig_p320_desktop_v1.gltf?dl=0')
     
 
 
@@ -84,15 +88,32 @@ function App() {
       />
       )
   }
-
-  // createRoot(document.getElementById('root')).render(
-  //   <Canvas className='Canvas'>
-  //     <ambientLight />
-  //     <pointLight position={[10, 10, 10]} />
-  //     <Box position={[-1.2, 0, 0]} />
-  //     <Box position={[1.2, 0, 0]} />
-  //   </Canvas>
-  // )
+  function CustomLoader() {
+    const { progress } = useProgress()
+    return (
+      <Html center>
+        <BoxMui sx={{position: 'relative', display: 'inline-flex' }}>
+          <CircularProgress color="primary" size={70}/>
+          <BoxMui
+            sx={{
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="caption" component="div" color="white">
+            {`${Math.round(progress)}%`}
+            </Typography>
+          </BoxMui>
+        </BoxMui>
+      </Html>
+    )
+  }
 
   return (
     <div className="App">
@@ -104,7 +125,9 @@ function App() {
           <Box position={[0, 0, 0]} />
           <Box position={[2.2, 0, 0]} /> */}
           {/* <Scene/> */}
-          <Model/>
+          <React.Suspense fallback={<CustomLoader/>}>
+            <Model/>
+          </React.Suspense>
         </Canvas>
       )
       
