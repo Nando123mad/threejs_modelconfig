@@ -130,7 +130,9 @@ function App() {
     //https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/sig_mobile_v2/GLB/sig_p320_mobile_v2.glb
     //https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/sig_desktop_v2/GLB/sig_p320_desktop_v2.glb
     //http://dl.dropboxusercontent.com/s/5vrfxhpnht1thaj/sig_p320_desktop_v1.glb?dl=0
-    const { scene } = useGLTF('https://github.com/Nando123mad/threejs_modelconfig/tree/useGLTF/models/sig_desktop_v2/GLB/sig_p320_desktop_v2.glb')
+    const { LOWER } = useGLTF('https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/sid_desktop_v2_parts/sig_p320_Lower_desktop_v1.glb')
+    const { UPPER } = useGLTF('https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/sid_desktop_v2_parts/sig_p320_Upper_desktop_v1.glb')
+    const { MAG } = useGLTF('https://cdn.jsdelivr.net/gh/Nando123mad/threejs_modelconfig@useGLTF/models/sid_desktop_v2_parts/sig_p320_Mag_desktop_v1.glb')
     
 
 
@@ -146,7 +148,7 @@ function App() {
     return(
       <primitive 
         ref={ref}
-        object={scene} 
+        object={MAG} 
         scale={30}
         position={[-2, 0, 0]}//yposition controlled in useFrame
 
